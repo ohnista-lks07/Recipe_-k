@@ -1,7 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseForbidden
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 
@@ -46,7 +45,7 @@ def recipe_create(request):
 def recipe_update(request, recipe_id): # редагування
     recipe = get_object_or_404(Recipe, pk=recipe_id)
     if recipe.author != request.user:
-        return HttpResponseForbidden()
+        return redirect('home')
     if request.method == 'POST':
         form = RecipeForm(request.POST, request.FILES, instance=recipe)
         if form.is_valid():
@@ -61,7 +60,7 @@ def recipe_update(request, recipe_id): # редагування
 def recipe_delete(request, recipe_id):
     recipe = get_object_or_404(Recipe, pk=recipe_id)
     if recipe.author != request.user:
-        return HttpResponseForbidden()
+        return redirect('home')
     if request.method == 'POST':
         recipe.delete()
         return redirect('home')
