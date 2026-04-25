@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Додати рецепт{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card p-4">
+            <h1 class="page-title mb-1" style="font-size:24px;">Додати рецепт</h1>
+            <p style="color:#666; font-size:14px; margin-bottom:24px;">Після створення зможеш додати інгредієнти</p>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label">Назва</label>
+                    {{ form.title }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Категорія</label>
+                    {{ form.category }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Спосіб приготування</label>
+                    {{ form.text_content }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Фото</label>
+                    {{ form.image }}
+                </div>
+                <div class="mb-4 d-flex align-items-center gap-2">
+                    {{ form.is_public }}
+                    <label class="form-label mb-0">Публічний рецепт</label>
+                </div>
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-green">Зберегти</button>
+                    <a href="{% url 'home' %}" class="btn btn-outline-green">Скасувати</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

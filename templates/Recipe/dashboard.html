@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Мої рецепти{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="page-title">Мої рецепти</h1>
+    <a href="{% url 'recipe_create' %}" class="btn btn-green">+ Додати рецепт</a>
+</div>
+<div class="row g-3">
+    {% for recipe in recipes %}
+    <div class="col-md-4">
+        <div class="card h-100">
+            {% if recipe.image %}
+                <img src="{{ recipe.image.url }}" class="card-img-top">
+            {% else %}
+                <div class="card-img-top d-flex align-items-center justify-content-center" style="height:200px; background:#2a2a2a; font-size:48px;">🍽️</div>
+            {% endif %}
+            <div class="card-body">
+                <span class="badge-category">{{ recipe.category }}</span>
+                {% if recipe.is_public %}
+                    <span class="badge-category ms-1" style="background:#1a2a2e; color:#67e8f9;">публічний</span>
+                {% else %}
+                    <span class="badge-category ms-1" style="background:#2e1a1a; color:#f87171;">приватний</span>
+                {% endif %}
+                <h5 class="card-title mt-2">{{ recipe.title }}</h5>
+                <div class="d-flex gap-2 mt-3">
+                    <a href="{% url 'recipe_detail' recipe.pk %}" class="btn btn-outline-green btn-sm">Переглянути</a>
+                    <a href="{% url 'recipe_update' recipe.pk %}" class="btn btn-sm" style="border:1px solid #888; color:#aaa;">Редагувати</a>
+                    <a href="{% url 'recipe_delete' recipe.pk %}" class="btn btn-sm" style="border:1px solid #f87171; color:#f87171;">Видалити</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p style="color:#666;">У вас ще немає рецептів. <a href="{% url 'recipe_create' %}" style="color:#4ade80;">Додати перший?</a></p>
+    {% endfor %}
+</div>
+{% endblock %}
